@@ -23,6 +23,7 @@ type CalledService struct {
 	Protocol            string `json:"protocol"`
 	TrafficForwardRatio int    `json:"traffic_forward_ratio"`
 	RequestPayloadSize  int    `json:"request_payload_size"`
+	Probability         int    `json:"probability"`
 }
 
 type CpuComplexity struct {

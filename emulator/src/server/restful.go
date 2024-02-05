@@ -88,6 +88,7 @@ func (handler endpointHandler) ServeHTTP(writer http.ResponseWriter, request *ht
 	}
 	writeJSONResponse(http.StatusOK, response, writer)
 	util.LogEndpointCall(trace)
+	fmt.Println("Called")
 }
 
 // Launch a HTTP server to serve one or more endpoints

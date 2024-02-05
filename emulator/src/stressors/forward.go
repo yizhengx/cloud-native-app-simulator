@@ -24,6 +24,8 @@ import (
 	"net/http"
 	"sync"
 
+	"math/rand"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -102,8 +104,34 @@ func ForwardSequential(request any, services []model.CalledService) []generated.
 	}
 	responses := make([]generated.EndpointResponse, len, len)
 
+	// Dynamic pattern: randomly pick one value
+	sum_prob := 0
+	type s_p_pair struct {
+		service_name string
+		probability  int
+	}
+	var service_prob []s_p_pair
+	for _, service := range services {
+		if service.Probability != -1 {
+			sum_prob += service.Probability
+			service_prob = append(service_prob, s_p_pair{service.Service, sum_prob})
+		}
+	}
+	rand_value := rand.Intn(sum_prob-1) + 1
+	picked_service := ""
+	for _, p := range service_prob {
+		if rand_value <= p.probability {
+			picked_service = p.service_name
+			break
+		}
+	}
+	fmt.Println("Picked service is", picked_service)
+
 	i := 0
 	for _, service := range services {
+		if service.Probability != -1 && picked_service != service.Service {
+			continue
+		}
 		for j := 0; j < service.TrafficForwardRatio; j++ {
 			if service.Protocol == "http" {
 				response := httpRequest(service, forwardHeaders)

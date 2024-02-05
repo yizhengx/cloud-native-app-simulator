@@ -341,6 +341,7 @@ func CreateDockerImage(config model.FileConfig, buildHash string) {
 	args := []string{
 		"build",
 		"--no-cache",
+		"--platform=linux/amd64",
 		"-t",
 		imageName,
 		"--build-arg",
