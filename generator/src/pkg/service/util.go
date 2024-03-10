@@ -40,7 +40,7 @@ const (
 
 	BaseImageDefault = "busybox"
 	ImageName        = "hydragen-emulator"
-	ImagePullPolicy  = "Never"
+	ImagePullPolicy  = "IfNotPresent"
 
 	ContainerName = "app"
 

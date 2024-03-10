@@ -1,0 +1,479 @@
+{
+  "settings": {
+    "development": true,
+    "logging": false
+  },
+  "services": [
+    {
+      "name": "service0",
+      "protocol": "http",
+      "clusters": [
+        {
+          "replicas": 1,
+          "namespace": "hydragen",
+          "node": "worker1",
+          "annotations": [
+            {
+              "name": "sidecar.istio.io/statsInclusionPrefixes",
+              "value": "cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager"
+            },
+            {
+              "name": "sidecar.istio.io/statsInclusionRegexps",
+              "value": "http.*"
+            },
+            {
+              "name": "sidecar.istio.io/userVolume",
+              "value": "[{\"name\":\"rate-limit-filter\",\"configMap\":{\"name\":\"rate-limit-filter\"}}]"
+            },
+            {
+              "name": "sidecar.istio.io/userVolumeMount",
+              "value": "[{\"mountPath\":\"/var/local/wasm\",\"name\":\"rate-limit-filter\"}]"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPU",
+              "value": "2000m"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPULimit",
+              "value": "2000m"
+            }
+          ]
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.001
+          },
+          "network_complexity": {
+            "forward_requests": "synchronous",
+            "response_payload_size": 256,
+            "called_services": [
+              {
+                "service": "service1",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "http",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512,
+                "probability": 20
+              },
+              {
+                "service": "service2",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "http",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512,
+                "probability": 30
+              },
+              {
+                "service": "service3",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "http",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512,
+                "probability": 50
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "service1",
+      "protocol": "http",
+      "clusters": [
+        {
+          "replicas": 1,
+          "namespace": "hydragen",
+          "node": "worker2",
+          "annotations": [
+            {
+              "name": "sidecar.istio.io/statsInclusionPrefixes",
+              "value": "cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager"
+            },
+            {
+              "name": "sidecar.istio.io/statsInclusionRegexps",
+              "value": "http.*"
+            },
+            {
+              "name": "sidecar.istio.io/userVolume",
+              "value": "[{\"name\":\"rate-limit-filter\",\"configMap\":{\"name\":\"rate-limit-filter\"}}]"
+            },
+            {
+              "name": "sidecar.istio.io/userVolumeMount",
+              "value": "[{\"mountPath\":\"/var/local/wasm\",\"name\":\"rate-limit-filter\"}]"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPU",
+              "value": "2000m"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPULimit",
+              "value": "2000m"
+            }
+          ]
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.020
+          },
+          "network_complexity": {
+            "forward_requests": "synchronous",
+            "response_payload_size": 256,
+            "called_services": [
+              {
+                "service": "service4",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "http",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512,
+                "probability": 80
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "service2",
+      "protocol": "http",
+      "clusters": [
+        {
+          "replicas": 1,
+          "namespace": "hydragen",
+          "node": "worker3",
+          "annotations": [
+            {
+              "name": "sidecar.istio.io/statsInclusionPrefixes",
+              "value": "cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager"
+            },
+            {
+              "name": "sidecar.istio.io/statsInclusionRegexps",
+              "value": "http.*"
+            },
+            {
+              "name": "sidecar.istio.io/userVolume",
+              "value": "[{\"name\":\"rate-limit-filter\",\"configMap\":{\"name\":\"rate-limit-filter\"}}]"
+            },
+            {
+              "name": "sidecar.istio.io/userVolumeMount",
+              "value": "[{\"mountPath\":\"/var/local/wasm\",\"name\":\"rate-limit-filter\"}]"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPU",
+              "value": "2000m"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPULimit",
+              "value": "2000m"
+            }
+          ]
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.026
+          }
+        }
+      ]
+    },
+    {
+      "name": "service3",
+      "protocol": "http",
+      "clusters": [
+        {
+          "replicas": 1,
+          "namespace": "hydragen",
+          "node": "worker1",
+          "annotations": [
+            {
+              "name": "sidecar.istio.io/statsInclusionPrefixes",
+              "value": "cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager"
+            },
+            {
+              "name": "sidecar.istio.io/statsInclusionRegexps",
+              "value": "http.*"
+            },
+            {
+              "name": "sidecar.istio.io/userVolume",
+              "value": "[{\"name\":\"rate-limit-filter\",\"configMap\":{\"name\":\"rate-limit-filter\"}}]"
+            },
+            {
+              "name": "sidecar.istio.io/userVolumeMount",
+              "value": "[{\"mountPath\":\"/var/local/wasm\",\"name\":\"rate-limit-filter\"}]"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPU",
+              "value": "2000m"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPULimit",
+              "value": "2000m"
+            }
+          ]
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.026
+          },
+          "network_complexity": {
+            "forward_requests": "synchronous",
+            "response_payload_size": 256,
+            "called_services": [
+              {
+                "service": "service5",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "http",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512,
+                "probability": 30
+              },
+              {
+                "service": "service6",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "http",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512,
+                "probability": 70
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "service4",
+      "protocol": "http",
+      "clusters": [
+        {
+          "replicas": 1,
+          "namespace": "hydragen",
+          "node": "worker2",
+          "annotations": [
+            {
+              "name": "sidecar.istio.io/statsInclusionPrefixes",
+              "value": "cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager"
+            },
+            {
+              "name": "sidecar.istio.io/statsInclusionRegexps",
+              "value": "http.*"
+            },
+            {
+              "name": "sidecar.istio.io/userVolume",
+              "value": "[{\"name\":\"rate-limit-filter\",\"configMap\":{\"name\":\"rate-limit-filter\"}}]"
+            },
+            {
+              "name": "sidecar.istio.io/userVolumeMount",
+              "value": "[{\"mountPath\":\"/var/local/wasm\",\"name\":\"rate-limit-filter\"}]"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPU",
+              "value": "2000m"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPULimit",
+              "value": "2000m"
+            }
+          ]
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.026
+          }
+        }
+      ]
+    },
+    {
+      "name": "service5",
+      "protocol": "http",
+      "clusters": [
+        {
+          "replicas": 1,
+          "namespace": "hydragen",
+          "node": "worker3",
+          "annotations": [
+            {
+              "name": "sidecar.istio.io/statsInclusionPrefixes",
+              "value": "cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager"
+            },
+            {
+              "name": "sidecar.istio.io/statsInclusionRegexps",
+              "value": "http.*"
+            },
+            {
+              "name": "sidecar.istio.io/userVolume",
+              "value": "[{\"name\":\"rate-limit-filter\",\"configMap\":{\"name\":\"rate-limit-filter\"}}]"
+            },
+            {
+              "name": "sidecar.istio.io/userVolumeMount",
+              "value": "[{\"mountPath\":\"/var/local/wasm\",\"name\":\"rate-limit-filter\"}]"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPU",
+              "value": "2000m"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPULimit",
+              "value": "2000m"
+            }
+          ]
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.026
+          }
+        }
+      ]
+    },
+    {
+      "name": "service6",
+      "protocol": "http",
+      "clusters": [
+        {
+          "replicas": 1,
+          "namespace": "hydragen",
+          "node": "worker3",
+          "annotations": [
+            {
+              "name": "sidecar.istio.io/statsInclusionPrefixes",
+              "value": "cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager"
+            },
+            {
+              "name": "sidecar.istio.io/statsInclusionRegexps",
+              "value": "http.*"
+            },
+            {
+              "name": "sidecar.istio.io/userVolume",
+              "value": "[{\"name\":\"rate-limit-filter\",\"configMap\":{\"name\":\"rate-limit-filter\"}}]"
+            },
+            {
+              "name": "sidecar.istio.io/userVolumeMount",
+              "value": "[{\"mountPath\":\"/var/local/wasm\",\"name\":\"rate-limit-filter\"}]"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPU",
+              "value": "2000m"
+            },
+            {
+              "name": "sidecar.istio.io/proxyCPULimit",
+              "value": "2000m"
+            }
+          ]
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.026
+          }
+        }
+      ]
+    }
+  ]
+}

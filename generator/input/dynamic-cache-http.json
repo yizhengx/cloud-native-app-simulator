@@ -1,7 +1,7 @@
 {
   "settings": {
     "development": true,
-    "logging": true
+    "logging": false
   },
   "services": [
     {
@@ -76,7 +76,8 @@
                 "endpoint": "endpoint1",
                 "protocol": "http",
                 "traffic_forward_ratio": 1,
-                "request_payload_size": 512
+                "request_payload_size": 512,
+                "probability": 40
               }
             ]
           }
@@ -90,7 +91,7 @@
         {
           "replicas": 1,
           "namespace": "hydragen",
-          "node": "worker1",
+          "node": "worker2",
           "annotations": [
             {
               "name": "sidecar.istio.io/statsInclusionPrefixes",
@@ -147,7 +148,7 @@
         {
           "replicas": 1,
           "namespace": "hydragen",
-          "node": "worker1",
+          "node": "worker3",
           "annotations": [
             {
               "name": "sidecar.istio.io/statsInclusionPrefixes",
