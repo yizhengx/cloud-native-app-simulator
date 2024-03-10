@@ -1,5 +1,3 @@
 manifests/
-input/
 !input/new_description.json
 generated/
-k8s/

@@ -117,6 +117,7 @@ func ForwardSequential(request any, services []model.CalledService) []generated.
 			service_prob = append(service_prob, s_p_pair{service.Service, sum_prob})
 		}
 	}
+	fmt.Println(service_prob)
 	rand_value := rand.Intn(sum_prob-1) + 1
 	picked_service := ""
 	for _, p := range service_prob {

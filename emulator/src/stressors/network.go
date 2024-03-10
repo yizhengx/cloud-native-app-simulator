@@ -117,12 +117,12 @@ func (n *NetworkTask) ExecTask(endpoint *model.Endpoint, responses *MutexTaskRes
 		calls = ForwardSequential(n.Request, stressParams.CalledServices)
 	}
 
-	// svc := fmt.Sprintf("%s/%s", util.ServiceName, endpoint.Name)
-	// ConcatenateNetworkResponses(responses, &generated.NetworkTaskResponse{
-	// 	Services:  []string{svc},
-	// 	Responses: make(map[string]*generated.ServiceResponse),
-	// 	Payload:   RandomPayload(stressParams.ResponsePayloadSize),
-	// }, calls)
+	svc := fmt.Sprintf("%s/%s", util.ServiceName, endpoint.Name)
+	ConcatenateNetworkResponses(responses, &generated.NetworkTaskResponse{
+		Services:  []string{svc},
+		Responses: make(map[string]*generated.ServiceResponse),
+		Payload:   RandomPayload(stressParams.ResponsePayloadSize),
+	}, calls)
 
 	util.LogNetworkTask(endpoint, calls)
 }
