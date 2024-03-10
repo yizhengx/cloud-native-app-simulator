@@ -11,7 +11,7 @@
         {
           "replicas": 1,
           "namespace": "hydragen",
-          "node": "node-1",
+          "node": "worker1",
           "annotations": [
             {
               "name": "sidecar.istio.io/statsInclusionPrefixes",
@@ -90,7 +90,7 @@
         {
           "replicas": 1,
           "namespace": "hydragen",
-          "node": "node-1",
+          "node": "worker1",
           "annotations": [
             {
               "name": "sidecar.istio.io/statsInclusionPrefixes",
@@ -147,7 +147,7 @@
         {
           "replicas": 1,
           "namespace": "hydragen",
-          "node": "node-1",
+          "node": "worker1",
           "annotations": [
             {
               "name": "sidecar.istio.io/statsInclusionPrefixes",
