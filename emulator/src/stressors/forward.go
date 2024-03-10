@@ -98,39 +98,54 @@ func grpcRequest(service model.CalledService) generated.EndpointResponse {
 // Forward requests to all services sequentially and return REST or gRPC responses
 func ForwardSequential(request any, services []model.CalledService) []generated.EndpointResponse {
 	forwardHeaders := ExtractHeaders(request)
-	len := 0
+	length := 0
+	dynamic := false
 	for _, service := range services {
-		len += service.TrafficForwardRatio
+		if service.Probability != 0 {
+			if !dynamic {
+				dynamic = true
+			}
+			continue
+		}
+		length += service.TrafficForwardRatio
 	}
-	responses := make([]generated.EndpointResponse, len, len)
+	
 
 	// Dynamic pattern: randomly pick one value
-	sum_prob := 0
-	type s_p_pair struct {
-		service_name string
-		probability  int
-	}
-	var service_prob []s_p_pair
-	for _, service := range services {
-		if service.Probability != -1 {
-			sum_prob += service.Probability
-			service_prob = append(service_prob, s_p_pair{service.Service, sum_prob})
-		}
-	}
-	fmt.Println(service_prob)
-	rand_value := rand.Intn(sum_prob-1) + 1
 	picked_service := ""
-	for _, p := range service_prob {
-		if rand_value <= p.probability {
-			picked_service = p.service_name
-			break
+	if dynamic {
+		sum_prob := 0
+		type s_p_pair struct {
+			service_name string
+			probability  int
+			ratio int
+		}
+		var service_prob []s_p_pair
+		for _, service := range services {
+			if service.Probability != 0 {
+				sum_prob += service.Probability
+				service_prob = append(service_prob, s_p_pair{service.Service, sum_prob, service.TrafficForwardRatio})
+			}
+		}
+		if (len(service_prob)==1) {
+			sum_prob = 100
+			service_prob = append(service_prob, s_p_pair{"not-existing-service", sum_prob, 0})
+		}
+		rand_value := rand.Intn(sum_prob-1) + 1
+		for _, p := range service_prob {
+			if rand_value <= p.probability {
+				picked_service = p.service_name
+				length += p.ratio
+				break
+			}
 		}
 	}
-	fmt.Println("Picked service is", picked_service)
+
+	responses := make([]generated.EndpointResponse, length, length)
 
 	i := 0
 	for _, service := range services {
-		if service.Probability != -1 && picked_service != service.Service {
+		if service.Probability != 0 && picked_service != service.Service {
 			continue
 		}
 		for j := 0; j < service.TrafficForwardRatio; j++ {
@@ -165,15 +180,56 @@ func parallelGRPCRequest(responses []generated.EndpointResponse, i int, service 
 // Forward requests to all services in parallel using goroutines and return REST or gRPC responses
 func ForwardParallel(request any, services []model.CalledService) []generated.EndpointResponse {
 	forwardHeaders := ExtractHeaders(request)
-	len := 0
+	length := 0
+	dynamic := false
 	for _, service := range services {
-		len += service.TrafficForwardRatio
+		if service.Probability != 0 {
+			if !dynamic {
+				dynamic = true
+			}
+			continue
+		}
+		length += service.TrafficForwardRatio
 	}
-	responses := make([]generated.EndpointResponse, len, len)
+
+	// Dynamic pattern: randomly pick one value
+	picked_service := ""
+	if dynamic {
+		sum_prob := 0
+		type s_p_pair struct {
+			service_name string
+			probability  int
+			ratio int
+		}
+		var service_prob []s_p_pair
+		for _, service := range services {
+			if service.Probability != 0 {
+				sum_prob += service.Probability
+				service_prob = append(service_prob, s_p_pair{service.Service, sum_prob, service.TrafficForwardRatio})
+			}
+		}
+		if (len(service_prob)==1) {
+			sum_prob = 100
+			service_prob = append(service_prob, s_p_pair{"not-existing-service", sum_prob, 0})
+		}
+		rand_value := rand.Intn(sum_prob-1) + 1
+		for _, p := range service_prob {
+			if rand_value <= p.probability {
+				picked_service = p.service_name
+				length += p.ratio
+				break
+			}
+		}
+	}
+
+	responses := make([]generated.EndpointResponse, length, length)
 	wg := sync.WaitGroup{}
 
 	i := 0
 	for _, service := range services {
+		if service.Probability != 0 && picked_service != service.Service {
+			continue
+		}
 		for j := 0; j < service.TrafficForwardRatio; j++ {
 			if service.Protocol == "http" {
 				wg.Add(1)
