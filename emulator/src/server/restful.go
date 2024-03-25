@@ -81,6 +81,7 @@ type endpointHandler struct {
 }
 
 func (handler endpointHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+	// fmt.Println("called")
 	trace := util.TraceEndpointCall(handler.endpoint, "HTTP")
 	response := &generated.Response{
 		Endpoint: handler.endpoint.Name,

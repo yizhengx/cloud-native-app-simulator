@@ -23,12 +23,21 @@ import (
 	"fmt"
 	"net/http"
 	"sync"
-
+	"time"
 	"math/rand"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
+
+var count int
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+	fmt.Println("Random Seed")
+	// count = 0
+}
+
 
 // Headers to propagate from inbound to outbound
 var incomingHeaders = []string{
@@ -132,6 +141,8 @@ func ForwardSequential(request any, services []model.CalledService) []generated.
 			service_prob = append(service_prob, s_p_pair{"not-existing-service", sum_prob, 0})
 		}
 		rand_value := rand.Intn(sum_prob-1) + 1
+		// rand_value := (count)%100+10
+		// count += 10
 		for _, p := range service_prob {
 			if rand_value <= p.probability {
 				picked_service = p.service_name
