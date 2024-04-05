@@ -158,7 +158,7 @@
                 "protocol": "grpc",
                 "traffic_forward_ratio": 1,
                 "request_payload_size": 512,
-                "probability": 
+                "probability": 33
               }
             ]
           }
@@ -320,7 +320,7 @@
           "execution_mode": "sequential",
           "cpu_complexity": {
             "execution_time": 0.002
-          },
+          }
         }
       ]
     },
@@ -377,7 +377,7 @@
           "execution_mode": "sequential",
           "cpu_complexity": {
             "execution_time": 0.002
-          },
+          }
         }
       ]
     }
