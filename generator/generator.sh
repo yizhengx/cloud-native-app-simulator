@@ -16,6 +16,7 @@
 
 #!/bin/bash
 
+
 set -e
 
 DEFAULT_NUM=4
