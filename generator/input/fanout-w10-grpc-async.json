@@ -1,0 +1,435 @@
+{
+  "settings": {
+    "logging": false,
+    "development": true
+  },
+  "services": [
+    {
+      "name": "service0",
+      "protocol": "http",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker1"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.001
+          },
+          "network_complexity": {
+            "forward_requests": "asynchronous",
+            "response_payload_size": 256,
+            "called_services": [
+              {
+                "service": "service1",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service2",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service3",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service4",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service5",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service6",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service7",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service8",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service9",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              },
+              {
+                "service": "service10",
+                "port": 80,
+                "endpoint": "endpoint1",
+                "protocol": "grpc",
+                "traffic_forward_ratio": 1,
+                "request_payload_size": 512
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "service1",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker2"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.003
+          }
+        }
+      ]
+    },
+    {
+      "name": "service2",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker3"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.005
+          }
+        }
+      ]
+    },
+    {
+      "name": "service3",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker1"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.007
+          }
+        }
+      ]
+    },
+    {
+      "name": "service4",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker2"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.009
+          }
+        }
+      ]
+    },
+    {
+      "name": "service5",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker3"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.011
+          }
+        }
+      ]
+    },
+    {
+      "name": "service6",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker1"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.013
+          }
+        }
+      ]
+    },
+    {
+      "name": "service7",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker2"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.015
+          }
+        }
+      ]
+    },
+    {
+      "name": "service8",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker3"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.017
+          }
+        }
+      ]
+    },
+    {
+      "name": "service9",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker1"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.019
+          }
+        }
+      ]
+    },
+    {
+      "name": "service10",
+      "protocol": "grpc",
+      "clusters": [
+        {
+          "replicas": 1,
+          "node": "worker2"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "memory": "1024M",
+          "cpu": "1000m"
+        },
+        "requests": {
+          "memory": "512M",
+          "cpu": "1000m"
+        }
+      },
+      "processes": 10,
+      "readiness_probe": 5,
+      "endpoints": [
+        {
+          "name": "endpoint1",
+          "execution_mode": "sequential",
+          "cpu_complexity": {
+            "execution_time": 0.021
+          }
+        }
+      ]
+    }
+  ]
+}

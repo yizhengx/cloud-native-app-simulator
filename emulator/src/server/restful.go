@@ -17,6 +17,7 @@ limitations under the License.
 package server
 
 import (
+	"application-emulator/src/slowpoke"
 	"application-emulator/src/stressors"
 	"application-emulator/src/util"
 	model "application-model"
@@ -93,6 +94,7 @@ func (handler endpointHandler) ServeHTTP(writer http.ResponseWriter, request *ht
 
 // Launch a HTTP server to serve one or more endpoints
 func HTTP(endpoints []model.Endpoint) {
+	slowpoke.SlowpokeInit()
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", rootHandler)
 

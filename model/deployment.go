@@ -71,7 +71,7 @@ type ContainerInstance struct {
 	Ports           []ContainerPortInstance   `yaml:"ports"`
 	Volumes         []ContainerVolumeInstance `yaml:"volumeMounts"`
 	ReadinessProbe  ReadinessProbeInstance    `yaml:"readinessProbe,omitempty"`
-	Resources       ResourcesInstance         `yaml:"resources"`
+	// Resources       ResourcesInstance         `yaml:"resources"`
 }
 
 type ContainerPortInstance struct {

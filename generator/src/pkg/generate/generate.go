@@ -186,6 +186,10 @@ func CreateK8sYaml(config model.FileConfig, clusters []string, buildHash string)
 
 		logging := config.Settings.Logging
 
+		for _, e := range config.Services[i].Endpoints {
+			e.CpuComplexity.ExecutionTime = 9999
+		}
+
 		cm_data := s.CreateConfigMap(processes, logging, protocol, config.Services[i].Endpoints)
 
 		serv_json, err := json.Marshal(cm_data)
@@ -348,8 +352,11 @@ func CreateDockerImage(config model.FileConfig, buildHash string) {
 		"SRCIMAGE=" + sourceImage,
 		"--build-arg",
 		"BASEIMAGE=" + config.Settings.BaseImage,
+		"--progress=plain",
 		path,
 	}
+
+	fmt.Println("Docker build baseimage:", config.Settings.BaseImage)
 
 	cmd := exec.Command("docker", args...)
 	cmd.Stdout = os.Stdout

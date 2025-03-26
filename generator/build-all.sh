@@ -1,4 +1,6 @@
-for description in input/*;
+cd $(dirname $0)
+
+for description in input/chain-d2-http-sync.json;
 do 
     name=$(awk -F'[/.]' '{print $2}' <<<$description)
     # sometimes the base image will be deleted but I have no idea..
@@ -13,13 +15,19 @@ do
     sudo docker rmi yizhengx/hydragen:$name # untag image
 
     # modify yaml files to change image
-    sudo rm -rf $name-yamls
-    sudo mkdir $name-yamls
+    sudo rm -rf $name/yamls
+    sudo mkdir -p $name/yamls
     sudo chmod 777 k8s/*
-    sudo mv k8s/* $name-yamls/
-    for file in $name-yamls/*;
+    sudo mv k8s/* $name/yamls/
+    for file in $name/yamls/*;
     do 
+        # file is x.yaml, x is the name of the service, extract x in uppercase
+        service=$(echo $file | awk -F'/' '{print $NF}' | awk -F'.' '{print toupper($1)}')
+        sudo sed -i "s/9999/\${PROCESSING_TIME_$service}/g" $file
+        sudo sed -i 's/\${SLOWPOKE_DELAY_MICROS_[^}]*}/"&"/g' $file
+        sudo sed -i 's/${SLOWPOKE_PRERUN}/"${SLOWPOKE_PRERUN}"/g' $file
+        # replace 9999 with string "${PROCESSING_TIME_$service}"
         sudo sed -i "/image:/c\                  image: yizhengx/hydragen:${name}" $file
-        sudo sed -i "/imagePullPolicy:/c\                  imagePullPolicy: IfNotPresent" $file
+        sudo sed -i "/imagePullPolicy:/c\                  imagePullPolicy: Always" $file
     done
 done

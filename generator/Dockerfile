@@ -25,6 +25,10 @@ FROM ${SRCIMAGE} as builder
 # Copy everything the application generator created
 COPY ./generated/ /usr/src/emulator/emulator/src/generated/
 
+COPY ./poker /slowpoke/poker
+
+RUN gcc /slowpoke/poker/poker.c -O2 -o /usr/bin/poker
+
 WORKDIR /usr/src/emulator
 
 # Run protobuf compiler
@@ -43,8 +47,10 @@ FROM ${BASEIMAGE}
 # Copy final binary to /usr/bin/app-emulator
 COPY --from=builder /usr/src/emulator/app-emulator /usr/bin/app-emulator
 COPY --from=builder /usr/bin/grpc_health_probe /usr/bin/grpc_health_probe
+COPY --from=builder /usr/bin/poker /usr/bin/poker
+COPY --from=builder /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/x86_64-linux-gnu/libgcc_s.so.1
 
 ENV CONF=/usr/src/emulator/config/conf.json
 
 EXPOSE 5000
-ENTRYPOINT [ "/usr/bin/app-emulator" ]
+ENTRYPOINT [ "/bin/sh", "-c", "/usr/bin/poker /usr/bin/app-emulator" ]

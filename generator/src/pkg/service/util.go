@@ -111,6 +111,9 @@ func CreateDeployment(metadataName, selectorAppName, selectorClusterName string,
 	memlimitEnvInstance.Name = "GOMEMLIMIT"
 	memlimitEnvInstance.Value = fmt.Sprint(memlimitBytes)
 	containerInstance.Env = append(containerInstance.Env, memlimitEnvInstance)
+	// SLOWPOKE_DELAY_MICROS: SLOWPOKE_DELAY_MICROS_metadataName
+	containerInstance.Env = append(containerInstance.Env, model.EnvInstance{Name: "SLOWPOKE_DELAY_MICROS", Value: "${SLOWPOKE_DELAY_MICROS_" + strings.ToUpper(metadataName) + "}"})
+	containerInstance.Env = append(containerInstance.Env, model.EnvInstance{Name: "SLOWPOKE_PRERUN", Value: "${SLOWPOKE_PRERUN}"})
 
 	volumeInstance.Name = volumeName
 	volumeInstance.ConfigMap.Name = configMapName
@@ -133,10 +136,10 @@ func CreateDeployment(metadataName, selectorAppName, selectorClusterName string,
 
 	containerInstance.ReadinessProbe.InitialDelaySeconds = readinessProbe
 	containerInstance.ReadinessProbe.PeriodSeconds = 1
-	containerInstance.Resources.ResourceRequests.Cpu = requestCPU
-	containerInstance.Resources.ResourceRequests.Memory = requestMemory
-	containerInstance.Resources.ResourceLimits.Cpu = limitCPU
-	containerInstance.Resources.ResourceLimits.Memory = limitMemory
+	// containerInstance.Resources.ResourceRequests.Cpu = requestCPU
+	// containerInstance.Resources.ResourceRequests.Memory = requestMemory
+	// containerInstance.Resources.ResourceLimits.Cpu = limitCPU
+	// containerInstance.Resources.ResourceLimits.Memory = limitMemory
 
 	deployment.APIVersion = "apps/v1"
 	deployment.Kind = "Deployment"

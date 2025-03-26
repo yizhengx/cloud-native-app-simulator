@@ -17,6 +17,7 @@ limitations under the License.
 package stressors
 
 import (
+	"application-emulator/src/slowpoke"
 	model "application-model"
 	"application-model/generated"
 	"sync"
@@ -38,6 +39,8 @@ type Stressor interface {
 
 // Executes all stressors sequentially or in parallel depending on user config
 func Exec(request any, endpoint *model.Endpoint) *generated.TaskResponses {
+	// fmt.Printf("Executing stressors for endpoint %s\n", endpoint.Name)
+	slowpoke.SlowpokeCheck(endpoint.Name)
 	if endpoint.ExecutionMode == "parallel" {
 		return ExecParallel(request, endpoint)
 	} else {

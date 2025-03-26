@@ -18,6 +18,7 @@ package server
 
 import (
 	"application-emulator/src/generated/server"
+	"application-emulator/src/slowpoke"
 	"application-emulator/src/util"
 	model "application-model"
 	"context"
@@ -52,6 +53,7 @@ func (h *HealthServerImpl) Check(ctx context.Context, request *grpc_health_v1.He
 
 // Launch a gRPC server to serve one or more endpoints
 func GRPC(endpoints []model.Endpoint) {
+	slowpoke.SlowpokeInit()
 	listener, err := net.Listen("tcp", ":5000")
 	if err != nil {
 		panic(err)
