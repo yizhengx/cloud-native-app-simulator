@@ -219,7 +219,8 @@ func CreateK8sYaml(config model.FileConfig, clusters []string, buildHash string)
 			configmap := s.CreateConfig("config-"+serv, "config-"+serv, c_id, namespace, string(serv_json))
 			appendManifest(configmap)
 
-			image := fmt.Sprintf("%s/%s:%s", s.HostnameFQDN(), s.ImageName, buildHash)
+			// image := fmt.Sprintf("%s/%s:%s", s.HostnameFQDN(), s.ImageName, buildHash)
+			image := "yizhengx/mucache:synthetic-pokerpp-0maxconn"
 			deployment := s.CreateDeployment(serv, serv, c_id, replicas, serv, c_id, namespace,
 				s.DefaultPort, s.ContainerName, image, s.ImagePullPolicy, s.VolumePath, s.VolumeName, "config-"+serv, readinessProbe,
 				resources.Requests.Cpu, resources.Requests.Memory, resources.Limits.Cpu, resources.Limits.Memory,

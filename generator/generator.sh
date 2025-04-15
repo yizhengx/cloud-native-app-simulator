@@ -28,23 +28,23 @@ fi
 
 if [[ -d generated ]]; then
 	echo "Deleting previous generated files"
-	rm -r generated
+	sudo rm -r generated
 fi
 
 if [[ -d k8s ]]; then
 	echo "Deleting previous manifest files"
-	rm -r k8s
+	sudo rm -r k8s
 fi
 
-images="$(docker images $(hostname -f)/hydragen-emulator -q)"
+images="$(sudo docker images $(hostname -f)/hydragen-emulator -q)"
 
 if [[ ! -z "$images" ]]; then
 	echo "Deleting previous Docker images"
-	docker image remove "$images"
+	sudo docker image remove "$images"
 fi
 
 mkdir generated
 mkdir k8s
 
 echo "Generating image and kubernetes manifest files"
-go run main.go generate $1 $2
+sudo go run main.go generate $1 $2

@@ -98,8 +98,8 @@ func CreateDeployment(metadataName, selectorAppName, selectorClusterName string,
 	var containerVolume model.ContainerVolumeInstance
 	var volumeInstance model.VolumeInstance
 
-	serviceEnvInstance.Name = "SERVICE_NAME"
-	serviceEnvInstance.Value = metadataName
+	serviceEnvInstance.Name = "APP_NAME"
+	serviceEnvInstance.Value = "service"
 	containerInstance.Env = append(containerInstance.Env, serviceEnvInstance)
 
 	memlimitResource, _ := resource.ParseQuantity(limitMemory)
@@ -114,6 +114,11 @@ func CreateDeployment(metadataName, selectorAppName, selectorClusterName string,
 	// SLOWPOKE_DELAY_MICROS: SLOWPOKE_DELAY_MICROS_metadataName
 	containerInstance.Env = append(containerInstance.Env, model.EnvInstance{Name: "SLOWPOKE_DELAY_MICROS", Value: "${SLOWPOKE_DELAY_MICROS_" + strings.ToUpper(metadataName) + "}"})
 	containerInstance.Env = append(containerInstance.Env, model.EnvInstance{Name: "SLOWPOKE_PRERUN", Value: "${SLOWPOKE_PRERUN}"})
+	containerInstance.Env = append(containerInstance.Env, model.EnvInstance{Name: "SLOWPOKE_POKER_BATCH_THRESHOLD", Value: "${SLOWPOKE_POKER_BATCH_THRESHOLD_" + strings.ToUpper(metadataName) + "}"})
+	containerInstance.Env = append(containerInstance.Env, model.EnvInstance{Name: "SLOWPOKE_SERV_NAME", Value: metadataName})
+	containerInstance.Env = append(containerInstance.Env, model.EnvInstance{Name: "SLOWPOKE_IS_TARGET_SERVICE", Value: "${SLOWPOKE_IS_TARGET_SERVICE_" + strings.ToUpper(metadataName) + "}"})
+	containerInstance.Env = append(containerInstance.Env, model.EnvInstance{Name: "CONF", Value: "/usr/src/emulator/config/conf.json"})
+	
 
 	volumeInstance.Name = volumeName
 	volumeInstance.ConfigMap.Name = configMapName
@@ -123,6 +128,7 @@ func CreateDeployment(metadataName, selectorAppName, selectorClusterName string,
 
 	containerInstance.Volumes = append(containerInstance.Volumes, containerVolume)
 	containerInstance.Ports = append(containerInstance.Ports, model.ContainerPortInstance{ContainerPort: port})
+	containerInstance.Ports = append(containerInstance.Ports, model.ContainerPortInstance{ContainerPort: 5500})
 	containerInstance.Name = containerName
 	containerInstance.Image = containerImageURL
 	containerInstance.ImagePullPolicy = containerImagePolicy
@@ -214,7 +220,18 @@ func CreateService(metadataName, selectorAppName, protocol, uri, metadataLabelCl
 	service.Metadata.Labels.Cluster = metadataLabelCluster
 	service.Metadata.Annotations = annotations
 	service.Spec.Selector.App = selectorAppName
+	ports = append(ports, model.ServicePortInstance{Name:"pokerpp", Protocol: "TCP", Port:5500, TargetPort:5500})
 	service.Spec.Ports = append(service.Spec.Ports, ports...)
+	// - protocol: TCP
+	// port: 5550
+	// targetPort: 5550
+	// name: pokerpp
+	// type ServicePortInstance struct {
+	// 	Name       string `yaml:"name,omitempty"`
+	// 	Port       int    `yaml:"port,omitempty"`
+	// 	TargetPort int    `yaml:"targetPort,omitempty"`
+	// 	Protocol   string `yaml:"protocol,omitempty"`
+	// }
 
 	return service
 }

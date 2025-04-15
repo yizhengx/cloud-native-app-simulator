@@ -1,6 +1,6 @@
 cd $(dirname $0)
 
-for description in input/chain-d2-http-sync.json;
+for description in input/large-scale.json;
 do 
     name=$(awk -F'[/.]' '{print $2}' <<<$description)
     # sometimes the base image will be deleted but I have no idea..
@@ -29,5 +29,6 @@ do
         # replace 9999 with string "${PROCESSING_TIME_$service}"
         sudo sed -i "/image:/c\                  image: yizhengx/hydragen:${name}" $file
         sudo sed -i "/imagePullPolicy:/c\                  imagePullPolicy: Always" $file
+        sudo sed -i 's|yizhengx/hydragen:large-scale|yizhengx/mucache:synthetic-pokerpp-0maxconn|g' $file
     done
 done

@@ -54,3 +54,4 @@ ENV CONF=/usr/src/emulator/config/conf.json
 
 EXPOSE 5000
 ENTRYPOINT [ "/bin/sh", "-c", "/usr/bin/poker /usr/bin/app-emulator" ]
+# ENTRYPOINT [ "/usr/bin/app-emulator" ]
