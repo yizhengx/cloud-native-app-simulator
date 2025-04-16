@@ -51,7 +51,7 @@ spec:
                       value: /usr/src/emulator/config/conf.json
                   ports:
                     - containerPort: 5000
-                    - containerPort: 5500
+                    - containerPort: 5550
                   volumeMounts:
                     - mountPath: /usr/src/emulator/config
                       name: config-data-volume
@@ -82,6 +82,6 @@ spec:
           port: 80
           targetPort: 5000
         - name: pokerpp
-          port: 5500
-          targetPort: 5500
+          port: 5550
+          targetPort: 5550
           protocol: TCP

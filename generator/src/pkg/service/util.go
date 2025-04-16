@@ -128,7 +128,7 @@ func CreateDeployment(metadataName, selectorAppName, selectorClusterName string,
 
 	containerInstance.Volumes = append(containerInstance.Volumes, containerVolume)
 	containerInstance.Ports = append(containerInstance.Ports, model.ContainerPortInstance{ContainerPort: port})
-	containerInstance.Ports = append(containerInstance.Ports, model.ContainerPortInstance{ContainerPort: 5500})
+	containerInstance.Ports = append(containerInstance.Ports, model.ContainerPortInstance{ContainerPort: 5550})
 	containerInstance.Name = containerName
 	containerInstance.Image = containerImageURL
 	containerInstance.ImagePullPolicy = containerImagePolicy
@@ -220,7 +220,7 @@ func CreateService(metadataName, selectorAppName, protocol, uri, metadataLabelCl
 	service.Metadata.Labels.Cluster = metadataLabelCluster
 	service.Metadata.Annotations = annotations
 	service.Spec.Selector.App = selectorAppName
-	ports = append(ports, model.ServicePortInstance{Name:"pokerpp", Protocol: "TCP", Port:5500, TargetPort:5500})
+	ports = append(ports, model.ServicePortInstance{Name:"pokerpp", Protocol: "TCP", Port:5550, TargetPort:5550})
 	service.Spec.Ports = append(service.Spec.Ports, ports...)
 	// - protocol: TCP
 	// port: 5550
