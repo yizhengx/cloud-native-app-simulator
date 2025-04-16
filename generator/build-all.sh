@@ -25,6 +25,8 @@ do
         service=$(echo $file | awk -F'/' '{print $NF}' | awk -F'.' '{print toupper($1)}')
         sudo sed -i "s/9999/\${PROCESSING_TIME_$service}/g" $file
         sudo sed -i 's/\${SLOWPOKE_DELAY_MICROS_[^}]*}/"&"/g' $file
+        sudo sed -i 's/\${SLOWPOKE_POKER_BATCH_THRESHOLD_[^}]*}/"&"/g' $file
+        sudo sed -i 's/\${SLOWPOKE_IS_TARGET_SERVICE_[^}]*}/"&"/g' $file
         sudo sed -i 's/${SLOWPOKE_PRERUN}/"${SLOWPOKE_PRERUN}"/g' $file
         # replace 9999 with string "${PROCESSING_TIME_$service}"
         sudo sed -i "/image:/c\                  image: yizhengx/hydragen:${name}" $file

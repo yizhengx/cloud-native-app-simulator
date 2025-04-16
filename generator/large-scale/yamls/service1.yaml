@@ -42,11 +42,11 @@ spec:
                     - name: SLOWPOKE_PRERUN
                       value: "${SLOWPOKE_PRERUN}"
                     - name: SLOWPOKE_POKER_BATCH_THRESHOLD
-                      value: ${SLOWPOKE_POKER_BATCH_THRESHOLD_SERVICE1}
+                      value: "${SLOWPOKE_POKER_BATCH_THRESHOLD_SERVICE1}"
                     - name: SLOWPOKE_SERV_NAME
                       value: service1
                     - name: SLOWPOKE_IS_TARGET_SERVICE
-                      value: ${SLOWPOKE_IS_TARGET_SERVICE_SERVICE1}
+                      value: "${SLOWPOKE_IS_TARGET_SERVICE_SERVICE1}"
                     - name: CONF
                       value: /usr/src/emulator/config/conf.json
                   ports:
